@@ -1,0 +1,191 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using ConcertDB.DAL;
+using ConcertDB.DAL.Entities;
+
+namespace ConcertDB.Controllers
+{
+    public class TicketsController : Controller
+    {
+        private readonly DatabaseContext _context;
+
+        public TicketsController(DatabaseContext context)
+        {
+            _context = context;
+        }
+
+        // GET: Tickets
+        public async Task<IActionResult> Index()
+        {
+              return _context.Ticketss != null ? 
+                          View(await _context.Ticketss.ToListAsync()) :
+                          Problem("Entity set 'DatabaseContext.Ticketss'  is null.");
+        }
+
+        // GET: Tickets/Details/5
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null || _context.Ticketss == null)
+            {
+                return NotFound();
+            }
+
+            var ticket = await _context.Ticketss
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (ticket == null)
+            {
+                return NotFound();
+            }
+
+            return View(ticket);
+        }
+
+        // GET: Tickets/Create
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        // POST: Tickets/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(Ticket ticket)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Add(ticket);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            return View(ticket);
+        }
+
+        // GET: Tickets/Edit/5
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null || _context.Ticketss == null)
+            {
+                return NotFound();
+            }
+
+            var ticket = await _context.Ticketss.FindAsync(id);
+            if (ticket == null)
+            {
+                return NotFound();
+            }
+            return View(ticket);
+        }
+
+        // POST: Tickets/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, Ticket ticket)
+        {
+            if (id != ticket.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(ticket);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!TicketExists(ticket.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View(ticket);
+        }
+
+        // GET: Tickets/Delete/5
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null || _context.Ticketss == null)
+            {
+                return NotFound();
+            }
+
+            var ticket = await _context.Ticketss
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (ticket == null)
+            {
+                return NotFound();
+            }
+
+            return View(ticket);
+        }
+
+        // POST: Tickets/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            if (_context.Ticketss == null)
+            {
+                return Problem("Entity set 'DatabaseContext.Ticketss'  is null.");
+            }
+            var ticket = await _context.Ticketss.FindAsync(id);
+            if (ticket != null)
+            {
+                _context.Ticketss.Remove(ticket);
+            }
+            
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
+        private bool TicketExists(int id)
+        {
+          return (_context.Ticketss?.Any(e => e.Id == id)).GetValueOrDefault();
+        }
+
+        ////intentando sacar las reglas sde negocio
+        //public IActionResult VerificarBoleta(int id)
+        //{
+        //    Ticket Tickets = Ticket.Obtener(id);
+
+        //    if (Tickets == null)
+        //    {
+        //        // Mostrar mensaje de boleta no válida en la vista
+        //        ViewBag.Mensaje = "Boleta no válida";
+        //    }
+        //    else if (Tickets.Usada)
+        //    {
+        //        // Mostrar mensaje de boleta usada en la vista
+        //        ViewBag.Mensaje = "La boleta fue usada el " + boleta.FechaUso.ToString() + " por la portería " + boleta.PorteriaUso;
+        //    }
+        //    else
+        //    {
+        //        // Obtener la lista de porterías de ingreso disponibles desde la base de datos
+        //        List<string> porteriasDisponibles = ObtenerPorteriasDisponibles();
+
+        //        // Mostrar lista desplegable en la vista y botón para marcar la boleta como usada
+        //        ViewBag.Boleta = boleta;
+        //        ViewBag.PorteriasDisponibles = porteriasDisponibles;
+        //    }
+
+        //    return View();
+        //}
+    }
+}
