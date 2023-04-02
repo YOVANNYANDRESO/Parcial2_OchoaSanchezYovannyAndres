@@ -14,5 +14,11 @@ namespace ConcertDB.DAL.Entities
         public Boolean IsUsed { get; set; }
         [Display(Name = "Localidad")]
         public String? EntranceGate { get; set; }
+
+        //intentando dar con las reglas es borrable
+        //public static Ticket Obtener(Guid id) { }
+        //public void Guardar() { }
+        //public static List<Boleta> ObtenerTodas() { }
     }
 }
+

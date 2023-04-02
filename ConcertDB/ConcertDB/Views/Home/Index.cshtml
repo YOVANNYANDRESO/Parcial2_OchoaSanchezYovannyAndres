@@ -2,7 +2,26 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Validación de boleta</title>
+</head>
+<body>
+	<h1>Validación de boleta</h1>
+    <form method="post">
+        <label for="idBoleta">ID de Boleta:</label>
+        <input type="text" id="idBoleta" name="idBoleta">
+        <br>
+        <label for="localidad">Localidad:</label>
+        <select id="localidad" name="localidad">
+            <option value="norte">Norte</option>
+            <option value="sur">Sur</option>
+            <option value="este">Oriental</option>
+            <option value="oeste">Occidental</option>
+        </select>
+        <br>
+        <input type="submit" value="Ingresar">
+    </form>
+</body>
+</html>

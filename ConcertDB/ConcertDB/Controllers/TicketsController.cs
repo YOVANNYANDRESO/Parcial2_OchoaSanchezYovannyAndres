@@ -159,5 +159,33 @@ namespace ConcertDB.Controllers
         {
           return (_context.Ticketss?.Any(e => e.Id == id)).GetValueOrDefault();
         }
+
+        ////intentando sacar las reglas sde negocio
+        //public IActionResult VerificarBoleta(int id)
+        //{
+        //    Ticket Tickets = Ticket.Obtener(id);
+
+        //    if (Tickets == null)
+        //    {
+        //        // Mostrar mensaje de boleta no válida en la vista
+        //        ViewBag.Mensaje = "Boleta no válida";
+        //    }
+        //    else if (Tickets.Usada)
+        //    {
+        //        // Mostrar mensaje de boleta usada en la vista
+        //        ViewBag.Mensaje = "La boleta fue usada el " + boleta.FechaUso.ToString() + " por la portería " + boleta.PorteriaUso;
+        //    }
+        //    else
+        //    {
+        //        // Obtener la lista de porterías de ingreso disponibles desde la base de datos
+        //        List<string> porteriasDisponibles = ObtenerPorteriasDisponibles();
+
+        //        // Mostrar lista desplegable en la vista y botón para marcar la boleta como usada
+        //        ViewBag.Boleta = boleta;
+        //        ViewBag.PorteriasDisponibles = porteriasDisponibles;
+        //    }
+
+        //    return View();
+        //}
     }
 }
