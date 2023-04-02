@@ -1,35 +1,16 @@
-﻿using ConcertDB.Models;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
-using System.Diagnostics;
 
 namespace ConcertDB.Controllers
 {
-    public class HomeController : Controller
+    public class BoletaController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private const string connectionString = "Data Source=myServerAddress;Initial Catalog=myDataBase;User ID=myUsername;Password=myPassword;";
 
-        public HomeController(ILogger<HomeController> logger)
-        {
-            _logger = logger;
-        }
-
-        public IActionResult Index()
+        public ActionResult Index()
         {
             return View();
         }
-
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
-
 
         [HttpPost]
         public ActionResult ValidarBoleta(string boletaId)
@@ -39,7 +20,7 @@ namespace ConcertDB.Controllers
             DateTime date = DateTime.MinValue;
             string localidad = string.Empty;
 
-            using (SqlConnection connection = new SqlConnection(""))
+            using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 SqlCommand command = new SqlCommand("SELECT * FROM Boletas WHERE IdBoleta = @id", connection);
                 command.Parameters.AddWithValue("@id", boletaId);
@@ -78,7 +59,7 @@ namespace ConcertDB.Controllers
         [HttpPost]
         public ActionResult RegistrarUsoBoleta(string boletaId, string localidad)
         {
-            using (SqlConnection connection = new SqlConnection(""))
+            using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 SqlCommand command = new SqlCommand("UPDATE Boletas SET IsUsed = @isUsed, Date = @date, Localidad = @localidad WHERE IdBoleta = @id", connection);
                 command.Parameters.AddWithValue("@isUsed", true);
