@@ -44,7 +44,7 @@ namespace ConcertDB.Migrations
                     b.HasIndex("Id")
                         .IsUnique();
 
-                    b.ToTable("Ticketss");
+                    b.ToTable("Ticketss", (string)null);
                 });
 #pragma warning restore 612, 618
         }

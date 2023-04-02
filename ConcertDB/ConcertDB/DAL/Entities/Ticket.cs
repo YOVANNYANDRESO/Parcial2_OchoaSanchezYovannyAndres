@@ -6,9 +6,13 @@ namespace ConcertDB.DAL.Entities
     {
         [Key]
         [Required]
+        [Display(Name = "Codigo del boleto")]
         public int Id { get; set; }
+        [Display(Name ="Fecha de uso") ]
         public DateTime? UseDate { get; set; }
+        [Display(Name = "Utilizada")]
         public Boolean IsUsed { get; set; }
+        [Display(Name = "Localidad")]
         public String? EntranceGate { get; set; }
     }
 }
